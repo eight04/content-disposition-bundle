@@ -1,0 +1,21 @@
+{
+  "name": "content-disposition-bundle",
+  "version": "0.0.0",
+  "description": "Browserified bundle of content-disposition",
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "devDependencies": {
+    "camelcase": "^5.0.0",
+    "content-disposition": "^0.5.2",
+    "endent": "^1.2.0",
+    "rollup": "^0.67.3",
+    "rollup-plugin-cjs-es": "^0.7.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-shim": "^1.0.0",
+    "rollup-plugin-terser": "^3.0.0"
+  },
+  "repository": "eight04/content-disposition-bundle",
+  "private": true,
+  "dependencies": {}
+}
