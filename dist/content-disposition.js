@@ -1,16 +1,23 @@
 var contentDisposition = (function () {
   'use strict';
 
+  class Buffer {
+    constructor(s) {
+      this.s = s;
+    }
+    toString() {
+      const bytes = new Uint8Array(this.s.length);
+      for (let i = 0; i < this.s.length; i++) {
+        bytes[i] = this.s.charCodeAt(i);
+      }
+      return new TextDecoder("utf-8").decode(bytes);
+    }
+  }
+
   function basename(s) {
     const parts = s.split(/[\\/]/);
     return parts[parts.length - 1];
   }
-
-  /*!
-   * content-disposition
-   * Copyright(c) 2014 Douglas Christopher Wilson
-   * MIT Licensed
-   */
 
   /**
    * Module exports.

@@ -1,4 +1,5 @@
 import cjs from "rollup-plugin-cjs-es";
+import inject from "rollup-plugin-inject";
 import resolve from 'rollup-plugin-node-resolve';
 import shim from "rollup-plugin-shim";
 import {terser} from 'rollup-plugin-terser';
@@ -38,10 +39,27 @@ function config({output, plugins = []}) {
             const parts = s.split(/[\\/]/);
             return parts[parts.length - 1];
           }
+        `,
+        buffer: endent`
+          export default class {
+            constructor(s) {
+              this.s = s;
+            }
+            toString() {
+              const bytes = new Uint8Array(this.s.length);
+              for (let i = 0; i < this.s.length; i++) {
+                bytes[i] = this.s.charCodeAt(i);
+              }
+              return new TextDecoder("utf-8").decode(bytes);
+            }
+          }
         `
       }),
       resolve(),
       cjs({nested: true}),
+      inject({
+        Buffer: "buffer"
+      }),
       ...plugins
     ]
   };
