@@ -1,5 +1,4 @@
 import cjs from "rollup-plugin-cjs-es";
-import inject from "rollup-plugin-inject";
 import resolve from 'rollup-plugin-node-resolve';
 import shim from "rollup-plugin-shim";
 import {terser} from 'rollup-plugin-terser';
@@ -40,10 +39,13 @@ function config({output, plugins = []}) {
             return parts[parts.length - 1];
           }
         `,
-        buffer: endent`
-          export default class {
+        "safe-buffer": endent`
+          export class Buffer {
             constructor(s) {
               this.s = s;
+            }
+            static from(binary) {
+              return new Buffer(binary);
             }
             toString() {
               const bytes = new Uint8Array(this.s.length);
@@ -57,9 +59,6 @@ function config({output, plugins = []}) {
       }),
       resolve(),
       cjs({nested: true}),
-      inject({
-        Buffer: "buffer"
-      }),
       ...plugins
     ]
   };
